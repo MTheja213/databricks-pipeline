@@ -13,7 +13,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Validate repository
+      - name: Install Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Test Databricks connection
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
         run: |
-          echo "Repository checkout successful"
-          echo "Databricks pipeline CI started"
+          databricks current-user me
